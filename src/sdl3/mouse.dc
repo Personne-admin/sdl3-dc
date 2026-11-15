@@ -1,0 +1,72 @@
+module sdl3::mouse;
+
+public import sdl3::types;
+
+public enum SDL_SystemCursor : i32 {
+    SDL_SYSTEM_CURSOR_DEFAULT = 0,
+    SDL_SYSTEM_CURSOR_TEXT = 1,
+    SDL_SYSTEM_CURSOR_WAIT = 2,
+    SDL_SYSTEM_CURSOR_CROSSHAIR = 3,
+    SDL_SYSTEM_CURSOR_PROGRESS = 4,
+    SDL_SYSTEM_CURSOR_NWSE_RESIZE = 5,
+    SDL_SYSTEM_CURSOR_NESW_RESIZE = 6,
+    SDL_SYSTEM_CURSOR_EW_RESIZE = 7,
+    SDL_SYSTEM_CURSOR_NS_RESIZE = 8,
+    SDL_SYSTEM_CURSOR_MOVE = 9,
+    SDL_SYSTEM_CURSOR_NOT_ALLOWED = 10,
+    SDL_SYSTEM_CURSOR_POINTER = 11,
+    SDL_SYSTEM_CURSOR_NW_RESIZE = 12,
+    SDL_SYSTEM_CURSOR_N_RESIZE = 13,
+    SDL_SYSTEM_CURSOR_NE_RESIZE = 14,
+    SDL_SYSTEM_CURSOR_E_RESIZE = 15,
+    SDL_SYSTEM_CURSOR_SE_RESIZE = 16,
+    SDL_SYSTEM_CURSOR_S_RESIZE = 17,
+    SDL_SYSTEM_CURSOR_SW_RESIZE = 18,
+    SDL_SYSTEM_CURSOR_W_RESIZE = 19,
+    SDL_SYSTEM_CURSOR_COUNT = 20,
+}
+
+public enum SDL_MouseWheelDirection : i32 {
+    SDL_MOUSEWHEEL_NORMAL = 0,
+    SDL_MOUSEWHEEL_FLIPPED = 1,
+}
+
+public using u8 SDL_BUTTON_LEFT = 1;
+public using u8 SDL_BUTTON_MIDDLE = 2;
+public using u8 SDL_BUTTON_RIGHT = 3;
+public using u8 SDL_BUTTON_X1 = 4;
+public using u8 SDL_BUTTON_X2 = 5;
+
+@nomangle public extern types::SDL_Window* SDL_GetMouseFocus();
+@nomangle public extern types::SDL_MouseButtonFlags SDL_GetMouseState(
+    f32* x,
+    f32* y
+);
+@nomangle public extern types::SDL_MouseButtonFlags SDL_GetGlobalMouseState(
+    f32* x,
+    f32* y
+);
+@nomangle public extern types::SDL_MouseButtonFlags SDL_GetRelativeMouseState(
+    f32* x,
+    f32* y
+);
+@nomangle public extern void SDL_WarpMouseInWindow(
+    types::SDL_Window* window,
+    f32 x,
+    f32 y
+);
+@nomangle public extern bool SDL_SetWindowRelativeMouseMode(
+    types::SDL_Window* window,
+    bool enabled
+);
+@nomangle public extern bool SDL_GetWindowRelativeMouseMode(
+    types::SDL_Window* window
+);
+@nomangle public extern types::SDL_Cursor* SDL_CreateSystemCursor(
+    SDL_SystemCursor id
+);
+@nomangle public extern bool SDL_SetCursor(types::SDL_Cursor* cursor);
+@nomangle public extern void SDL_DestroyCursor(types::SDL_Cursor* cursor);
+@nomangle public extern bool SDL_ShowCursor();
+@nomangle public extern bool SDL_HideCursor();
+@nomangle public extern bool SDL_CursorVisible();

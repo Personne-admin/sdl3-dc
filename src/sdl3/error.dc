@@ -1,0 +1,6 @@
+module sdl3::error;
+
+@nomangle public extern const char* SDL_GetError();
+@nomangle public extern bool SDL_SetError(const char* fmt);
+@nomangle public extern bool SDL_ClearError();
+@nomangle public extern bool SDL_OutOfMemory();

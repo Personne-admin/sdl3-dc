@@ -1,0 +1,145 @@
+module sdl3::video;
+
+public import sdl3::types;
+
+public enum SDL_PixelFormat : u32 {
+    SDL_PIXELFORMAT_UNKNOWN = 0,
+    SDL_PIXELFORMAT_INDEX8 = 318769153,
+    SDL_PIXELFORMAT_RGB565 = 353701890,
+    SDL_PIXELFORMAT_RGB24 = 386930691,
+    SDL_PIXELFORMAT_BGR24 = 390076419,
+    SDL_PIXELFORMAT_XRGB8888 = 370546692,
+    SDL_PIXELFORMAT_RGBX8888 = 371595268,
+    SDL_PIXELFORMAT_XBGR8888 = 374740996,
+    SDL_PIXELFORMAT_BGRX8888 = 375789572,
+    SDL_PIXELFORMAT_ARGB8888 = 372645892,
+    SDL_PIXELFORMAT_RGBA8888 = 373694468,
+    SDL_PIXELFORMAT_ABGR8888 = 376840196,
+    SDL_PIXELFORMAT_BGRA8888 = 377888772,
+}
+
+@nomangle public extern const char* SDL_GetPixelFormatName(
+    SDL_PixelFormat format
+);
+@nomangle public extern bool SDL_GetMasksForPixelFormat(
+    SDL_PixelFormat format,
+    i32* bpp,
+    u32* Rmask,
+    u32* Gmask,
+    u32* Bmask,
+    u32* Amask
+);
+@nomangle public extern SDL_PixelFormat SDL_GetPixelFormatForMasks(
+    i32 bpp,
+    u32 Rmask,
+    u32 Gmask,
+    u32 Bmask,
+    u32 Amask
+);
+@nomangle public extern const types::SDL_PixelFormatDetails* SDL_GetPixelFormatDetails(
+    SDL_PixelFormat format
+);
+@nomangle public extern u32 SDL_MapRGB(
+    const types::SDL_PixelFormatDetails* format,
+    const types::SDL_Palette* palette,
+    u8 r,
+    u8 g,
+    u8 b
+);
+@nomangle public extern u32 SDL_MapRGBA(
+    const types::SDL_PixelFormatDetails* format,
+    const types::SDL_Palette* palette,
+    u8 r,
+    u8 g,
+    u8 b,
+    u8 a
+);
+
+public enum SDL_GLAttr : i32 {
+    SDL_GL_RED_SIZE = 0,
+    SDL_GL_GREEN_SIZE = 1,
+    SDL_GL_BLUE_SIZE = 2,
+    SDL_GL_ALPHA_SIZE = 3,
+    SDL_GL_BUFFER_SIZE = 4,
+    SDL_GL_DOUBLEBUFFER = 5,
+    SDL_GL_DEPTH_SIZE = 6,
+    SDL_GL_STENCIL_SIZE = 7,
+    SDL_GL_ACCUM_RED_SIZE = 8,
+    SDL_GL_ACCUM_GREEN_SIZE = 9,
+    SDL_GL_ACCUM_BLUE_SIZE = 10,
+    SDL_GL_ACCUM_ALPHA_SIZE = 11,
+    SDL_GL_STEREO = 12,
+    SDL_GL_MULTISAMPLEBUFFERS = 13,
+    SDL_GL_MULTISAMPLESAMPLES = 14,
+    SDL_GL_ACCELERATED_VISUAL = 15,
+    SDL_GL_RETAINED_BACKING = 16,
+    SDL_GL_CONTEXT_MAJOR_VERSION = 17,
+    SDL_GL_CONTEXT_MINOR_VERSION = 18,
+    SDL_GL_CONTEXT_FLAGS = 19,
+    SDL_GL_CONTEXT_PROFILE_MASK = 20,
+    SDL_GL_SHARE_WITH_CURRENT_CONTEXT = 21,
+    SDL_GL_FRAMEBUFFER_SRGB_CAPABLE = 22,
+    SDL_GL_CONTEXT_RELEASE_BEHAVIOR = 23,
+    SDL_GL_CONTEXT_RESET_NOTIFICATION = 24,
+    SDL_GL_CONTEXT_NO_ERROR = 25,
+    SDL_GL_FLOATBUFFERS = 26,
+    SDL_GL_EGL_PLATFORM = 27,
+}
+
+public using SDL_GLProfile = u32;
+public using SDL_GLProfile SDL_GL_CONTEXT_PROFILE_CORE = 0x0001;
+public using SDL_GLProfile SDL_GL_CONTEXT_PROFILE_COMPATIBILITY = 0x0002;
+public using SDL_GLProfile SDL_GL_CONTEXT_PROFILE_ES = 0x0004;
+
+public using SDL_GLContextFlag = u32;
+public using SDL_GLContextFlag SDL_GL_CONTEXT_DEBUG_FLAG = 0x0001;
+public using SDL_GLContextFlag SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG = 0x0002;
+public using SDL_GLContextFlag SDL_GL_CONTEXT_ROBUST_ACCESS_FLAG = 0x0004;
+public using SDL_GLContextFlag SDL_GL_CONTEXT_RESET_ISOLATION_FLAG = 0x0008;
+
+public using SDL_FunctionPointer = void(*)();
+
+@nomangle public extern bool SDL_GL_LoadLibrary(const char* path);
+@nomangle public extern SDL_FunctionPointer SDL_GL_GetProcAddress(
+    const char* proc
+);
+@nomangle public extern void SDL_GL_UnloadLibrary();
+@nomangle public extern bool SDL_GL_ExtensionSupported(const char* extension);
+@nomangle public extern void SDL_GL_ResetAttributes();
+@nomangle public extern bool SDL_GL_SetAttribute(SDL_GLAttr attr, i32 value);
+@nomangle public extern bool SDL_GL_GetAttribute(SDL_GLAttr attr, i32* value);
+@nomangle public extern types::SDL_GLContext SDL_GL_CreateContext(
+    types::SDL_Window* window
+);
+@nomangle public extern bool SDL_GL_MakeCurrent(
+    types::SDL_Window* window,
+    types::SDL_GLContext context
+);
+@nomangle public extern types::SDL_Window* SDL_GL_GetCurrentWindow();
+@nomangle public extern types::SDL_GLContext SDL_GL_GetCurrentContext();
+@nomangle public extern bool SDL_GL_SetSwapInterval(i32 interval);
+@nomangle public extern bool SDL_GL_GetSwapInterval(i32* interval);
+@nomangle public extern bool SDL_GL_SwapWindow(types::SDL_Window* window);
+@nomangle public extern bool SDL_GL_DestroyContext(types::SDL_GLContext context);
+
+public using VkInstance = void*;
+public using VkSurfaceKHR = u64;
+public using VkAllocationCallbacks = void;
+
+@nomangle public extern bool SDL_Vulkan_LoadLibrary(const char* path);
+@nomangle public extern SDL_FunctionPointer SDL_Vulkan_GetVkGetInstanceProcAddr();
+@nomangle public extern void SDL_Vulkan_UnloadLibrary();
+@nomangle public extern const char* const* SDL_Vulkan_GetInstanceExtensions(
+    u32* count
+);
+@nomangle public extern bool SDL_Vulkan_CreateSurface(
+    types::SDL_Window* window,
+    VkInstance instance,
+    const VkAllocationCallbacks* allocator,
+    VkSurfaceKHR* surface
+);
+@nomangle public extern void SDL_Vulkan_DestroySurface(
+    VkInstance instance,
+    VkSurfaceKHR surface,
+    const VkAllocationCallbacks* allocator
+);

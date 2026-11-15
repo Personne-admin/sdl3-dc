@@ -1,0 +1,92 @@
+module sdl3::types;
+
+//!
+//! Primitive typedefs
+//!
+
+public using SDL_Bool = bool;
+public using SDL_Time = i64;
+public using SDL_TimerID = u32;
+public using SDL_WindowID = u32;
+public using SDL_DisplayID = u32;
+public using SDL_KeyboardID = u32;
+public using SDL_MouseID = u32;
+public using SDL_JoystickID = u32;
+public using SDL_AudioDeviceID = u32;
+public using SDL_CameraID = u32;
+public using SDL_SensorID = u32;
+public using SDL_PenID = u32;
+public using SDL_TouchID = u64;
+public using SDL_FingerID = u64;
+public using SDL_PropertiesID = u32;
+
+//!
+//! Bitmask flag types
+//!
+
+public using SDL_InitFlags = u32;
+public using SDL_WindowFlags = u64;
+public using SDL_MouseButtonFlags = u32;
+public using SDL_Keymod = u16;
+public using SDL_SurfaceFlags = u32;
+
+//!
+//! Opaque handle types
+//!
+
+public struct SDL_Window {}
+public struct SDL_Renderer {}
+public struct SDL_Texture {}
+public struct SDL_Palette {}
+public struct SDL_Cursor {}
+public struct SDL_Gamepad {}
+public struct SDL_Joystick {}
+public struct SDL_AudioStream {}
+public struct SDL_IOStream {}
+public struct SDL_DisplayModeData {}
+public struct SDL_PixelFormatDetails {}
+public struct SDL_GLContextState {}
+
+public using SDL_GLContext = SDL_GLContextState*;
+
+//!
+//! Common geometry and color structs
+//!
+
+public struct SDL_Point {
+    i32 x;
+    i32 y;
+}
+
+public struct SDL_FPoint {
+    f32 x;
+    f32 y;
+}
+
+public struct SDL_Rect {
+    i32 x;
+    i32 y;
+    i32 w;
+    i32 h;
+}
+
+public struct SDL_FRect {
+    f32 x;
+    f32 y;
+    f32 w;
+    f32 h;
+}
+
+public struct SDL_Color {
+    u8 r;
+    u8 g;
+    u8 b;
+    u8 a;
+}
+
+public struct SDL_FColor {
+    f32 r;
+    f32 g;
+    f32 b;
+    f32 a;
+}

@@ -1,0 +1,14 @@
+dpm::v1::Project {
+    name = "sdl3",
+    alias = "sdl3",
+    version = "0.1.0",
+    description = "SDL3 bindings for DC",
+    license = "MIT",
+
+    products = {
+        { name = "window_gl", entry = "examples/window_gl.dc" },
+        { name = "renderer_2d", entry = "examples/renderer_2d.dc" },
+    },
+
+    link = { "SDL3" },
+}

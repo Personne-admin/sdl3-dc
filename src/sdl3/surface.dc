@@ -1,0 +1,78 @@
+module sdl3::surface;
+
+public import sdl3::types;
+public import sdl3::video;
+
+public enum SDL_ScaleMode : i32 {
+    SDL_SCALEMODE_INVALID = -1,
+    SDL_SCALEMODE_NEAREST = 0,
+    SDL_SCALEMODE_LINEAR = 1,
+    SDL_SCALEMODE_PIXELART = 2,
+}
+
+public enum SDL_FlipMode : i32 {
+    SDL_FLIP_NONE = 0,
+    SDL_FLIP_HORIZONTAL = 1,
+    SDL_FLIP_VERTICAL = 2,
+    SDL_FLIP_HORIZONTAL_AND_VERTICAL = 3,
+}
+
+public struct SDL_Surface {
+    types::SDL_SurfaceFlags flags;
+    video::SDL_PixelFormat format;
+    i32 w;
+    i32 h;
+    i32 pitch;
+    void* pixels;
+    i32 refcount;
+    void* reserved;
+}
+
+@nomangle public extern SDL_Surface* SDL_CreateSurface(
+    i32 width,
+    i32 height,
+    video::SDL_PixelFormat format
+);
+@nomangle public extern SDL_Surface* SDL_CreateSurfaceFrom(
+    i32 width,
+    i32 height,
+    video::SDL_PixelFormat format,
+    void* pixels,
+    i32 pitch
+);
+@nomangle public extern void SDL_DestroySurface(SDL_Surface* surface);
+@nomangle public extern SDL_Surface* SDL_LoadBMP_IO(
+    types::SDL_IOStream* src,
+    bool closeio
+);
+@nomangle public extern SDL_Surface* SDL_LoadBMP(const char* file);
+@nomangle public extern bool SDL_SaveBMP_IO(
+    SDL_Surface* surface,
+    types::SDL_IOStream* dst,
+    bool closeio
+);
+@nomangle public extern bool SDL_SaveBMP(SDL_Surface* surface, const char* file);
+@nomangle public extern bool SDL_LockSurface(SDL_Surface* surface);
+@nomangle public extern void SDL_UnlockSurface(SDL_Surface* surface);
+@nomangle public extern SDL_Surface* SDL_ConvertSurface(
+    SDL_Surface* surface,
+    video::SDL_PixelFormat format
+);
+@nomangle public extern bool SDL_BlitSurface(
+    SDL_Surface* src,
+    const types::SDL_Rect* srcrect,
+    SDL_Surface* dst,
+    const types::SDL_Rect* dstrect
+);
+@nomangle public extern bool SDL_BlitSurfaceScaled(
+    SDL_Surface* src,
+    const types::SDL_Rect* srcrect,
+    SDL_Surface* dst,
+    const types::SDL_Rect* dstrect,
+    SDL_ScaleMode scaleMode
+);
+@nomangle public extern bool SDL_FillSurfaceRect(
+    SDL_Surface* dst,
+    const types::SDL_Rect* rect,
+    u32 color
+);

@@ -1,0 +1,97 @@
+module sdl3::keyboard;
+
+public import sdl3::types;
+
+public enum SDL_Scancode : i32 {
+    SDL_SCANCODE_UNKNOWN = 0,
+    SDL_SCANCODE_A = 4,
+    SDL_SCANCODE_B = 5,
+    SDL_SCANCODE_C = 6,
+    SDL_SCANCODE_D = 7,
+    SDL_SCANCODE_E = 8,
+    SDL_SCANCODE_F = 9,
+    SDL_SCANCODE_G = 10,
+    SDL_SCANCODE_H = 11,
+    SDL_SCANCODE_I = 12,
+    SDL_SCANCODE_J = 13,
+    SDL_SCANCODE_K = 14,
+    SDL_SCANCODE_L = 15,
+    SDL_SCANCODE_M = 16,
+    SDL_SCANCODE_N = 17,
+    SDL_SCANCODE_O = 18,
+    SDL_SCANCODE_P = 19,
+    SDL_SCANCODE_Q = 20,
+    SDL_SCANCODE_R = 21,
+    SDL_SCANCODE_S = 22,
+    SDL_SCANCODE_T = 23,
+    SDL_SCANCODE_U = 24,
+    SDL_SCANCODE_V = 25,
+    SDL_SCANCODE_W = 26,
+    SDL_SCANCODE_X = 27,
+    SDL_SCANCODE_Y = 28,
+    SDL_SCANCODE_Z = 29,
+    SDL_SCANCODE_1 = 30,
+    SDL_SCANCODE_2 = 31,
+    SDL_SCANCODE_3 = 32,
+    SDL_SCANCODE_4 = 33,
+    SDL_SCANCODE_5 = 34,
+    SDL_SCANCODE_6 = 35,
+    SDL_SCANCODE_7 = 36,
+    SDL_SCANCODE_8 = 37,
+    SDL_SCANCODE_9 = 38,
+    SDL_SCANCODE_0 = 39,
+    SDL_SCANCODE_RETURN = 40,
+    SDL_SCANCODE_ESCAPE = 41,
+    SDL_SCANCODE_BACKSPACE = 42,
+    SDL_SCANCODE_TAB = 43,
+    SDL_SCANCODE_SPACE = 44,
+    SDL_SCANCODE_RIGHT = 79,
+    SDL_SCANCODE_LEFT = 80,
+    SDL_SCANCODE_DOWN = 81,
+    SDL_SCANCODE_UP = 82,
+    SDL_SCANCODE_LCTRL = 224,
+    SDL_SCANCODE_LSHIFT = 225,
+    SDL_SCANCODE_LALT = 226,
+    SDL_SCANCODE_LGUI = 227,
+    SDL_SCANCODE_RCTRL = 228,
+    SDL_SCANCODE_RSHIFT = 229,
+    SDL_SCANCODE_RALT = 230,
+    SDL_SCANCODE_RGUI = 231,
+    SDL_SCANCODE_COUNT = 512,
+}
+
+public using SDL_Keycode = u32;
+public using SDL_Keycode SDLK_UNKNOWN = 0x00000000;
+public using SDL_Keycode SDLK_RETURN = 0x0000000d;
+public using SDL_Keycode SDLK_ESCAPE = 0x0000001b;
+public using SDL_Keycode SDLK_BACKSPACE = 0x00000008;
+public using SDL_Keycode SDLK_TAB = 0x00000009;
+public using SDL_Keycode SDLK_SPACE = 0x00000020;
+
+public using types::SDL_Keymod SDL_KMOD_NONE = 0x0000;
+public using types::SDL_Keymod SDL_KMOD_LSHIFT = 0x0001;
+public using types::SDL_Keymod SDL_KMOD_RSHIFT = 0x0002;
+public using types::SDL_Keymod SDL_KMOD_LCTRL = 0x0040;
+public using types::SDL_Keymod SDL_KMOD_RCTRL = 0x0080;
+public using types::SDL_Keymod SDL_KMOD_LALT = 0x0100;
+public using types::SDL_Keymod SDL_KMOD_RALT = 0x0200;
+public using types::SDL_Keymod SDL_KMOD_LGUI = 0x0400;
+public using types::SDL_Keymod SDL_KMOD_RGUI = 0x0800;
+public using types::SDL_Keymod SDL_KMOD_NUM = 0x1000;
+public using types::SDL_Keymod SDL_KMOD_CAPS = 0x2000;
+public using types::SDL_Keymod SDL_KMOD_MODE = 0x4000;
+public using types::SDL_Keymod SDL_KMOD_SCROLL = 0x8000;
+public using types::SDL_Keymod SDL_KMOD_CTRL = 0x00c0;
+public using types::SDL_Keymod SDL_KMOD_SHIFT = 0x0003;
+public using types::SDL_Keymod SDL_KMOD_ALT = 0x0300;
+public using types::SDL_Keymod SDL_KMOD_GUI = 0x0c00;
+
+@nomangle public extern const bool* SDL_GetKeyboardState(i32* numkeys);
+@nomangle public extern types::SDL_Keymod SDL_GetModState();
+@nomangle public extern void SDL_SetModState(types::SDL_Keymod modstate);
+@nomangle public extern types::SDL_Window* SDL_GetKeyboardFocus();
+@nomangle public extern bool SDL_StartTextInput(types::SDL_Window* window);
+@nomangle public extern bool SDL_StopTextInput(types::SDL_Window* window);
+@nomangle public extern bool SDL_TextInputActive(types::SDL_Window* window);
+@nomangle public extern const char* SDL_GetKeyName(SDL_Keycode key);
+@nomangle public extern const char* SDL_GetScancodeName(SDL_Scancode scancode);

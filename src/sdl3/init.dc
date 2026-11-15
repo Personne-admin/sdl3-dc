@@ -1,0 +1,70 @@
+module sdl3::init;
+
+public import sdl3::types;
+
+public using types::SDL_InitFlags SDL_INIT_AUDIO = 0x00000010;
+public using types::SDL_InitFlags SDL_INIT_VIDEO = 0x00000020;
+public using types::SDL_InitFlags SDL_INIT_JOYSTICK = 0x00000200;
+public using types::SDL_InitFlags SDL_INIT_HAPTIC = 0x00001000;
+public using types::SDL_InitFlags SDL_INIT_GAMEPAD = 0x00002000;
+public using types::SDL_InitFlags SDL_INIT_EVENTS = 0x00004000;
+public using types::SDL_InitFlags SDL_INIT_SENSOR = 0x00008000;
+public using types::SDL_InitFlags SDL_INIT_CAMERA = 0x00010000;
+
+public enum SDL_AppResult : i32 {
+    SDL_APP_CONTINUE = 0,
+    SDL_APP_SUCCESS = 1,
+    SDL_APP_FAILURE = 2,
+}
+
+public using SDL_MainThreadCallback = void(*)(void* userdata);
+
+@nomangle public extern bool SDL_Init(types::SDL_InitFlags flags);
+@nomangle public extern bool SDL_InitSubSystem(types::SDL_InitFlags flags);
+@nomangle public extern void SDL_QuitSubSystem(types::SDL_InitFlags flags);
+@nomangle public extern types::SDL_InitFlags SDL_WasInit(
+    types::SDL_InitFlags flags
+);
+@nomangle public extern void SDL_Quit();
+
+@nomangle public extern bool SDL_IsMainThread();
+@nomangle public extern bool SDL_RunOnMainThread(
+    SDL_MainThreadCallback callback,
+    void* userdata,
+    bool wait_complete
+);
+
+@nomangle public extern bool SDL_SetAppMetadata(
+    const char* appname,
+    const char* appversion,
+    const char* appidentifier
+);
+@nomangle public extern bool SDL_SetAppMetadataProperty(
+    const char* name,
+    const char* value
+);
+@nomangle public extern const char* SDL_GetAppMetadataProperty(const char* name);
+
+@nomangle public extern void SDL_SetMainReady();
+
+@nomangle public extern i32 SDL_GetVersion();
+@nomangle public extern const char* SDL_GetRevision();
+
+public enum SDL_HintPriority : i32 {
+    SDL_HINT_DEFAULT = 0,
+    SDL_HINT_NORMAL = 1,
+    SDL_HINT_OVERRIDE = 2,
+}
+
+@nomangle public extern bool SDL_SetHint(const char* name, const char* value);
+@nomangle public extern bool SDL_SetHintWithPriority(
+    const char* name,
+    const char* value,
+    SDL_HintPriority priority
+);
+@nomangle public extern bool SDL_ResetHint(const char* name);
+@nomangle public extern const char* SDL_GetHint(const char* name);
+@nomangle public extern bool SDL_GetHintBoolean(
+    const char* name,
+    bool default_value
+);

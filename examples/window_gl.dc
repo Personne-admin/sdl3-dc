@@ -1,0 +1,86 @@
+module window_gl;
+
+import sdl3;
+
+using GlClearColorFn = void(*)(f32, f32, f32, f32);
+using GlClearFn = void(*)(u32);
+using u32 GL_COLOR_BUFFER_BIT = 0x00004000;
+
+public i32 main() {
+    sdl3::SDL_SetMainReady();
+
+    if !sdl3::SDL_Init(sdl3::SDL_INIT_VIDEO) {
+        return 1;
+    }
+    defer sdl3::SDL_Quit();
+
+    sdl3::SDL_GL_SetAttribute(sdl3::SDL_GLAttr::SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+    sdl3::SDL_GL_SetAttribute(sdl3::SDL_GLAttr::SDL_GL_CONTEXT_MINOR_VERSION, 5);
+    sdl3::SDL_GL_SetAttribute(
+        sdl3::SDL_GLAttr::SDL_GL_CONTEXT_PROFILE_MASK,
+        sdl3::SDL_GL_CONTEXT_PROFILE_CORE as i32
+    );
+    sdl3::SDL_GL_SetAttribute(sdl3::SDL_GLAttr::SDL_GL_DOUBLEBUFFER, 1);
+    sdl3::SDL_GL_SetAttribute(sdl3::SDL_GLAttr::SDL_GL_DEPTH_SIZE, 24);
+
+    sdl3::SDL_Window* window = sdl3::SDL_CreateWindow(
+        "SDL3 + OpenGL 4.5 Core (DC)",
+        1280,
+        720,
+        sdl3::SDL_WINDOW_OPENGL | sdl3::SDL_WINDOW_RESIZABLE
+    );
+    if window == null {
+        sdl3::SDL_Quit();
+        return 2;
+    }
+    defer sdl3::SDL_DestroyWindow(window);
+
+    sdl3::SDL_GLContext gl_ctx = sdl3::SDL_GL_CreateContext(window);
+    if gl_ctx == null {
+        sdl3::SDL_DestroyWindow(window);
+        sdl3::SDL_Quit();
+        return 3;
+    }
+    defer sdl3::SDL_GL_DestroyContext(gl_ctx);
+
+    sdl3::SDL_GL_MakeCurrent(window, gl_ctx);
+    sdl3::SDL_GL_SetSwapInterval(1);
+
+    GlClearColorFn glClearColor = sdl3::SDL_GL_GetProcAddress("glClearColor") as GlClearColorFn;
+    GlClearFn glClear = sdl3::SDL_GL_GetProcAddress("glClear") as GlClearFn;
+
+    f32 blue = 0.25;
+    bool running = true;
+    sdl3::SDL_Event ev;
+
+    while running {
+        while sdl3::SDL_PollEvent(&ev) {
+            if ev.type == (sdl3::SDL_EventType::SDL_EVENT_QUIT as u32) {
+                running = false;
+            } else if ev.type == (sdl3::SDL_EventType::SDL_EVENT_KEY_DOWN as u32) {
+                if ev.key.key == sdl3::SDLK_ESCAPE {
+                    running = false;
+                }
+            } else if ev.type == (sdl3::SDL_EventType::SDL_EVENT_MOUSE_WHEEL as u32) {
+                if (sdl3::SDL_GetModState() & sdl3::SDL_KMOD_SHIFT) != 0 {
+                    blue += ev.wheel.y * 0.05;
+                    if blue < 0.0 {
+                        blue = 0.0;
+                    }
+                    if blue > 1.0 {
+                        blue = 1.0;
+                    }
+                }
+            }
+        }
+
+        if glClearColor != null && glClear != null {
+            glClearColor(0.1, 0.15, blue, 1.0);
+            glClear(GL_COLOR_BUFFER_BIT);
+        }
+
+        sdl3::SDL_GL_SwapWindow(window);
+    }
+
+    return 0;
+}

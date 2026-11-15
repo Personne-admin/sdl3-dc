@@ -1,0 +1,73 @@
+module renderer_2d;
+
+import sdl3;
+
+public i32 main() {
+    sdl3::SDL_SetMainReady();
+
+    if !sdl3::SDL_Init(sdl3::SDL_INIT_VIDEO) {
+        return 1;
+    }
+    defer sdl3::SDL_Quit();
+
+    sdl3::SDL_Window* window = null;
+    sdl3::SDL_Renderer* renderer = null;
+    if !sdl3::SDL_CreateWindowAndRenderer(
+        "SDL3 2D Renderer (DC)",
+        800,
+        600,
+        sdl3::SDL_WINDOW_RESIZABLE,
+        &window,
+        &renderer
+    ) {
+        sdl3::SDL_Quit();
+        return 2;
+    }
+    defer sdl3::SDL_DestroyWindow(window);
+    defer sdl3::SDL_DestroyRenderer(renderer);
+
+    sdl3::SDL_SetRenderVSync(renderer, 1);
+    sdl3::SDL_SetRenderLogicalPresentation(
+        renderer,
+        800,
+        600,
+        sdl3::SDL_RendererLogicalPresentation::SDL_LOGICAL_PRESENTATION_LETTERBOX
+    );
+
+    bool running = true;
+    sdl3::SDL_Event ev;
+
+    while running {
+        while sdl3::SDL_PollEvent(&ev) {
+            if ev.type == (sdl3::SDL_EventType::SDL_EVENT_QUIT as u32) {
+                running = false;
+            } else if ev.type == (sdl3::SDL_EventType::SDL_EVENT_KEY_DOWN as u32) {
+                if ev.key.key == sdl3::SDLK_ESCAPE {
+                    running = false;
+                }
+            }
+        }
+
+        // clear background
+        sdl3::SDL_SetRenderDrawColor(renderer, 24, 28, 36, 255);
+        sdl3::SDL_RenderClear(renderer);
+
+        // filled rectangle
+        sdl3::SDL_FRect fill_rect = {x = 120.0, y = 120.0, w = 220.0, h = 140.0};
+        sdl3::SDL_SetRenderDrawColor(renderer, 70, 150, 230, 255);
+        sdl3::SDL_RenderFillRect(renderer, &fill_rect);
+
+        // outlined rectangle
+        sdl3::SDL_FRect outline_rect = {x = 420.0, y = 200.0, w = 240.0, h = 180.0};
+        sdl3::SDL_SetRenderDrawColor(renderer, 240, 190, 60, 255);
+        sdl3::SDL_RenderRect(renderer, &outline_rect);
+
+        // diagonal line
+        sdl3::SDL_SetRenderDrawColor(renderer, 230, 80, 100, 255);
+        sdl3::SDL_RenderLine(renderer, 80.0, 500.0, 720.0, 100.0);
+
+        sdl3::SDL_RenderPresent(renderer);
+    }
+
+    return 0;
+}

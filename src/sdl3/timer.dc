@@ -1,0 +1,25 @@
+module sdl3::timer;
+
+public import sdl3::types;
+
+public using SDL_TimerCallback = u32(*)(void* userdata, types::SDL_TimerID timerID, u32 interval);
+public using SDL_NSTimerCallback = u64(*)(void* userdata, types::SDL_TimerID timerID, u64 interval);
+
+@nomangle public extern u64 SDL_GetTicks();
+@nomangle public extern u64 SDL_GetTicksNS();
+@nomangle public extern u64 SDL_GetPerformanceCounter();
+@nomangle public extern u64 SDL_GetPerformanceFrequency();
+@nomangle public extern void SDL_Delay(u32 ms);
+@nomangle public extern void SDL_DelayNS(u64 ns);
+@nomangle public extern void SDL_DelayPrecise(u64 ns);
+@nomangle public extern types::SDL_TimerID SDL_AddTimer(
+    u32 interval,
+    SDL_TimerCallback callback,
+    void* userdata
+);
+@nomangle public extern types::SDL_TimerID SDL_AddTimerNS(
+    u64 interval,
+    SDL_NSTimerCallback callback,
+    void* userdata
+);
+@nomangle public extern bool SDL_RemoveTimer(types::SDL_TimerID id);

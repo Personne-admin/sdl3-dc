@@ -1,0 +1,139 @@
+module sdl3::renderer;
+
+public import sdl3::types;
+public import sdl3::video;
+public import sdl3::surface;
+
+public enum SDL_TextureAccess : i32 {
+    SDL_TEXTUREACCESS_STATIC = 0,
+    SDL_TEXTUREACCESS_STREAMING = 1,
+    SDL_TEXTUREACCESS_TARGET = 2,
+}
+
+public enum SDL_RendererLogicalPresentation : i32 {
+    SDL_LOGICAL_PRESENTATION_DISABLED = 0,
+    SDL_LOGICAL_PRESENTATION_STRETCH = 1,
+    SDL_LOGICAL_PRESENTATION_LETTERBOX = 2,
+    SDL_LOGICAL_PRESENTATION_OVERSCAN = 3,
+    SDL_LOGICAL_PRESENTATION_INTEGER_SCALE = 4,
+}
+
+@nomangle public extern types::SDL_Renderer* SDL_CreateRenderer(
+    types::SDL_Window* window,
+    const char* name
+);
+@nomangle public extern void SDL_DestroyRenderer(types::SDL_Renderer* renderer);
+@nomangle public extern bool SDL_CreateWindowAndRenderer(
+    const char* title,
+    i32 width,
+    i32 height,
+    types::SDL_WindowFlags window_flags,
+    types::SDL_Window** window,
+    types::SDL_Renderer** renderer
+);
+@nomangle public extern types::SDL_Window* SDL_GetRenderWindow(
+    types::SDL_Renderer* renderer
+);
+@nomangle public extern bool SDL_SetRenderVSync(
+    types::SDL_Renderer* renderer,
+    i32 vsync
+);
+@nomangle public extern bool SDL_GetRenderVSync(
+    types::SDL_Renderer* renderer,
+    i32* vsync
+);
+@nomangle public extern bool SDL_SetRenderLogicalPresentation(
+    types::SDL_Renderer* renderer,
+    i32 w,
+    i32 h,
+    SDL_RendererLogicalPresentation mode
+);
+@nomangle public extern bool SDL_SetRenderDrawColor(
+    types::SDL_Renderer* renderer,
+    u8 r,
+    u8 g,
+    u8 b,
+    u8 a
+);
+@nomangle public extern bool SDL_SetRenderDrawColorFloat(
+    types::SDL_Renderer* renderer,
+    f32 r,
+    f32 g,
+    f32 b,
+    f32 a
+);
+@nomangle public extern bool SDL_RenderClear(types::SDL_Renderer* renderer);
+@nomangle public extern bool SDL_RenderPresent(types::SDL_Renderer* renderer);
+@nomangle public extern bool SDL_RenderPoint(
+    types::SDL_Renderer* renderer,
+    f32 x,
+    f32 y
+);
+@nomangle public extern bool SDL_RenderLine(
+    types::SDL_Renderer* renderer,
+    f32 x1,
+    f32 y1,
+    f32 x2,
+    f32 y2
+);
+@nomangle public extern bool SDL_RenderRect(
+    types::SDL_Renderer* renderer,
+    const types::SDL_FRect* rect
+);
+@nomangle public extern bool SDL_RenderFillRect(
+    types::SDL_Renderer* renderer,
+    const types::SDL_FRect* rect
+);
+@nomangle public extern bool SDL_RenderRects(
+    types::SDL_Renderer* renderer,
+    const types::SDL_FRect* rects,
+    i32 count
+);
+@nomangle public extern bool SDL_RenderFillRects(
+    types::SDL_Renderer* renderer,
+    const types::SDL_FRect* rects,
+    i32 count
+);
+
+@nomangle public extern types::SDL_Texture* SDL_CreateTexture(
+    types::SDL_Renderer* renderer,
+    video::SDL_PixelFormat format,
+    SDL_TextureAccess access,
+    i32 w,
+    i32 h
+);
+@nomangle public extern types::SDL_Texture* SDL_CreateTextureFromSurface(
+    types::SDL_Renderer* renderer,
+    surface::SDL_Surface* surface
+);
+@nomangle public extern void SDL_DestroyTexture(types::SDL_Texture* texture);
+@nomangle public extern bool SDL_GetTextureSize(
+    types::SDL_Texture* texture,
+    f32* w,
+    f32* h
+);
+@nomangle public extern bool SDL_SetTextureScaleMode(
+    types::SDL_Texture* texture,
+    surface::SDL_ScaleMode scaleMode
+);
+@nomangle public extern bool SDL_UpdateTexture(
+    types::SDL_Texture* texture,
+    const types::SDL_Rect* rect,
+    const void* pixels,
+    i32 pitch
+);
+@nomangle public extern bool SDL_RenderTexture(
+    types::SDL_Renderer* renderer,
+    types::SDL_Texture* texture,
+    const types::SDL_FRect* srcrect,
+    const types::SDL_FRect* dstrect
+);
+@nomangle public extern bool SDL_RenderTextureRotated(
+    types::SDL_Renderer* renderer,
+    types::SDL_Texture* texture,
+    const types::SDL_FRect* srcrect,
+    const types::SDL_FRect* dstrect,
+    f64 angle,
+    const types::SDL_FPoint* center,
+    surface::SDL_FlipMode flip
+);

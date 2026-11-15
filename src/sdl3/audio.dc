@@ -1,0 +1,78 @@
+module sdl3::audio;
+
+public import sdl3::types;
+
+public enum SDL_AudioFormat : u32 {
+    SDL_AUDIO_UNKNOWN = 0x0000,
+    SDL_AUDIO_U8 = 0x0008,
+    SDL_AUDIO_S8 = 0x8008,
+    SDL_AUDIO_S16LE = 0x8010,
+    SDL_AUDIO_S16BE = 0x9010,
+    SDL_AUDIO_S32LE = 0x8020,
+    SDL_AUDIO_S32BE = 0x9020,
+    SDL_AUDIO_F32LE = 0x8120,
+    SDL_AUDIO_F32BE = 0x9120,
+}
+
+public using SDL_AudioFormat SDL_AUDIO_S16 = SDL_AudioFormat::SDL_AUDIO_S16LE;
+public using SDL_AudioFormat SDL_AUDIO_S32 = SDL_AudioFormat::SDL_AUDIO_S32LE;
+public using SDL_AudioFormat SDL_AUDIO_F32 = SDL_AudioFormat::SDL_AUDIO_F32LE;
+
+public struct SDL_AudioSpec {
+    SDL_AudioFormat format;
+    i32 channels;
+    i32 freq;
+}
+
+public using types::SDL_AudioDeviceID SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK = 0xFFFFFFFF;
+public using types::SDL_AudioDeviceID SDL_AUDIO_DEVICE_DEFAULT_RECORDING = 0xFFFFFFFE;
+
+public using SDL_AudioStreamCallback = void(*)(void* userdata, types::SDL_AudioStream* stream, i32 additional_amount, i32 total_amount);
+
+@nomangle public extern types::SDL_AudioStream* SDL_OpenAudioDeviceStream(
+    types::SDL_AudioDeviceID devid,
+    const SDL_AudioSpec* spec,
+    SDL_AudioStreamCallback callback,
+    void* userdata
+);
+@nomangle public extern bool SDL_PutAudioStreamData(
+    types::SDL_AudioStream* stream,
+    const void* buf,
+    i32 len
+);
+@nomangle public extern i32 SDL_GetAudioStreamData(
+    types::SDL_AudioStream* stream,
+    void* buf,
+    i32 len
+);
+@nomangle public extern i32 SDL_GetAudioStreamAvailable(
+    types::SDL_AudioStream* stream
+);
+@nomangle public extern bool SDL_FlushAudioStream(
+    types::SDL_AudioStream* stream
+);
+@nomangle public extern bool SDL_ClearAudioStream(
+    types::SDL_AudioStream* stream
+);
+@nomangle public extern bool SDL_ResumeAudioStreamDevice(
+    types::SDL_AudioStream* stream
+);
+@nomangle public extern bool SDL_PauseAudioStreamDevice(
+    types::SDL_AudioStream* stream
+);
+@nomangle public extern void SDL_DestroyAudioStream(
+    types::SDL_AudioStream* stream
+);
+@nomangle public extern bool SDL_LoadWAV_IO(
+    types::SDL_IOStream* src,
+    bool closeio,
+    SDL_AudioSpec* spec,
+    u8** audio_buf,
+    u32* audio_len
+);
+@nomangle public extern bool SDL_LoadWAV(
+    const char* path,
+    SDL_AudioSpec* spec,
+    u8** audio_buf,
+    u32* audio_len
+);

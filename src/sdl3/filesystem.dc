@@ -1,0 +1,72 @@
+module sdl3::filesystem;
+
+public import sdl3::types;
+
+public enum SDL_IOWhence : i32 {
+    SDL_IO_SEEK_SET = 0,
+    SDL_IO_SEEK_CUR = 1,
+    SDL_IO_SEEK_END = 2,
+}
+
+public enum SDL_IOStatus : i32 {
+    SDL_IO_STATUS_READY = 0,
+    SDL_IO_STATUS_ERROR = 1,
+    SDL_IO_STATUS_EOF = 2,
+    SDL_IO_STATUS_NOT_READY = 3,
+    SDL_IO_STATUS_READONLY = 4,
+    SDL_IO_STATUS_WRITEONLY = 5,
+}
+
+@nomangle public extern const char* SDL_GetBasePath();
+@nomangle public extern char* SDL_GetPrefPath(const char* org, const char* app);
+
+@nomangle public extern types::SDL_IOStream* SDL_IOFromFile(
+    const char* file,
+    const char* mode
+);
+@nomangle public extern types::SDL_IOStream* SDL_IOFromMem(
+    void* mem,
+    usize size
+);
+@nomangle public extern types::SDL_IOStream* SDL_IOFromConstMem(
+    const void* mem,
+    usize size
+);
+@nomangle public extern bool SDL_CloseIO(types::SDL_IOStream* context);
+@nomangle public extern SDL_IOStatus SDL_GetIOStatus(
+    types::SDL_IOStream* context
+);
+@nomangle public extern i64 SDL_GetIOSize(types::SDL_IOStream* context);
+@nomangle public extern i64 SDL_SeekIO(
+    types::SDL_IOStream* context,
+    i64 offset,
+    SDL_IOWhence whence
+);
+@nomangle public extern i64 SDL_TellIO(types::SDL_IOStream* context);
+@nomangle public extern usize SDL_ReadIO(
+    types::SDL_IOStream* context,
+    void* ptr,
+    usize size
+);
+@nomangle public extern usize SDL_WriteIO(
+    types::SDL_IOStream* context,
+    const void* ptr,
+    usize size
+);
+@nomangle public extern void* SDL_LoadFile_IO(
+    types::SDL_IOStream* src,
+    usize* datasize,
+    bool closeio
+);
+@nomangle public extern void* SDL_LoadFile(const char* file, usize* datasize);
+@nomangle public extern bool SDL_SaveFile_IO(
+    types::SDL_IOStream* src,
+    const void* data,
+    usize datasize,
+    bool closeio
+);
+@nomangle public extern bool SDL_SaveFile(
+    const char* file,
+    const void* data,
+    usize datasize
+);

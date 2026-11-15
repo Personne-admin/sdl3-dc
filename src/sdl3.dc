@@ -1,0 +1,15 @@
+module sdl3;
+
+public import sdl3::types;
+public import sdl3::init;
+public import sdl3::error;
+public import sdl3::window;
+public import sdl3::video;
+public import sdl3::events;
+public import sdl3::keyboard;
+public import sdl3::mouse;
+public import sdl3::surface;
+public import sdl3::renderer;
+public import sdl3::timer;
+public import sdl3::filesystem;
+public import sdl3::audio;
